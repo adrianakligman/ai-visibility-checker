@@ -1,0 +1,56 @@
+name: Weekly AI Visibility Audit
+
+on:
+  schedule:
+    # Every Monday at 9:00 AM AEST (Sunday 11:00 PM UTC)
+    - cron: '0 23 * * 0'
+  workflow_dispatch: # Allow manual trigger from GitHub UI
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run AI visibility audit
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          mkdir -p reports
+          python checker.py \
+            --business "Hyperdot" \
+            --category "AI SEO agency" \
+            --location "Sydney" \
+            --output-dir reports
+
+      - name: Update visibility trend
+        run: python scripts/update_trend.py
+
+      - name: Commit report to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/
+          git add VISIBILITY_TREND.md
+          git diff --staged --quiet || git commit -m "chore: weekly AI visibility report $(date +'%Y-%m-%d')"
+          git push
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: visibility-report-${{ github.run_id }}
+          path: reports/
+          retention-days: 90
