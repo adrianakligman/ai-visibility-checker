@@ -6,7 +6,7 @@ Auto-generated weekly by GitHub Actions. Tracks how often [Hyperdot](https://hyp
 
 | Date | Score | Bar | GPT-4o | Gemini |
 |------|-------|-----|--------|--------|
-| 2026-07-12 | 0/100 | `░░░░░░░░░░` | — | — |
+| 2026-07-20 | 0/100 | `░░░░░░░░░░` | — | — |
 
 ## Current Recommendations
 
@@ -15,6 +15,6 @@ Auto-generated weekly by GitHub Actions. Tracks how often [Hyperdot](https://hyp
 
 ---
 
-*Last updated: 2026-07-12 23:46 UTC*
+*Last updated: 2026-07-20 02:57 UTC*
 
 Built by [Hyperdot](https://hyperdot.com.au) — Sydney's AI SEO, GEO & AEO specialists.
